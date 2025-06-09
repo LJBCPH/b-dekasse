@@ -91,13 +91,13 @@ if is_admin:
     st.markdown("---")
     st.subheader("🔐 Admin Panel")
 
-    st.markdown("### ➕ Add New Fine")
+    st.markdown("### ➕ Tilføj bøde")
     if not member_names:
-        st.warning("No members to assign fines to.")
+        st.warning("Ingen medlemmer i klubben!!.")
     else:
-        member = st.selectbox("Select member", member_names, key="fine_member")
-        fine_type = st.selectbox("Select fine", list(FINE_CATALOG.keys()))
-        if st.button("Assign Fine"):
+        member = st.selectbox("Vælg spiller", member_names, key="fine_member")
+        fine_type = st.selectbox("Vælg bøde", list(FINE_CATALOG.keys()))
+        if st.button("Tilføj bøde"):
             fines_df = load_fines()
             st.markdown(fines_df)
             new_fine = {
@@ -109,26 +109,26 @@ if is_admin:
             }
             fines_df = pd.concat([fines_df, pd.DataFrame([new_fine])], ignore_index=True)
             save_fines(fines_df)
-            st.success(f"Fine '{fine_type}' assigned to {member}.")
+            st.success(f"Bøde '{fine_type}' tilføjet til {member}.")
             st.rerun()
 
-    st.markdown("### 👥 Edit Members")
+    st.markdown("### 👥 Rediger spillere")
     with st.form("member_form"):
-        new_member = st.text_input("Add new member")
-        if st.form_submit_button("Add Member"):
+        new_member = st.text_input("Tilføj ny spiller")
+        if st.form_submit_button("Tilføj spiller"):
             if new_member and new_member not in member_names:
                 members_df = pd.concat([members_df, pd.DataFrame([{"name": new_member}])], ignore_index=True)
                 save_members(members_df)
-                st.success(f"Added member: {new_member}")
+                st.success(f"TIlføjede: {new_member}")
             else:
-                st.warning("Member exists or name is empty.")
+                st.warning("Spiller er allerede i klubben.")
 
-        if st.checkbox("Remove members"):
-            member_to_remove = st.selectbox("Select member to remove", member_names)
-            if st.form_submit_button("Remove Member"):
+        if st.checkbox("Fjern medlemmer"):
+            member_to_remove = st.selectbox("Vælg medlem du vil fjerne", member_names)
+            if st.form_submit_button("Fjern medlem"):
                 members_df = members_df[members_df["name"] != member_to_remove]
                 save_members(members_df)
-                st.success(f"Removed member: {member_to_remove}")
+                st.success(f"Fjernedeg: {member_to_remove}")
 
 # --- Admin Access Hint ---
 if not is_admin:
