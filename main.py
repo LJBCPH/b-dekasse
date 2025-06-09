@@ -56,7 +56,7 @@ if not fines_df.empty:
     total_owed = total_owed.sort_values(by="Total", ascending=False)
     st.dataframe(total_owed, use_container_width=True, hide_index=True)
 else:
-    st.info("No fines assigned yet!")
+    st.info("Ingen bøder!")
 
 # --- Member History ---
 if member_names:
@@ -73,7 +73,7 @@ if member_names:
             st.success(f"All fines for {selected_member} have been cleared.")
             st.rerun()
     else:
-        st.info("No fines yet for this member.")
+        st.info("Denne spiller er gældsfri.")
 
 # --- MobilePay Links ---
 if not fines_df.empty:
@@ -128,7 +128,7 @@ if is_admin:
             if st.form_submit_button("Fjern medlem"):
                 members_df = members_df[members_df["name"] != member_to_remove]
                 save_members(members_df)
-                st.success(f"Fjernedeg: {member_to_remove}")
+                st.success(f"Fjernede: {member_to_remove}")
 
 # --- Admin Access Hint ---
 if not is_admin:
