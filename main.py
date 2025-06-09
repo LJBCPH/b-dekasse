@@ -51,21 +51,53 @@ st.subheader("📋 Bødeoversigt")
 # Custom CSS
 st.markdown("""
 <style>
+@media (prefers-color-scheme: dark) {
+    .table {
+        color: #ffffff;
+    }
+    .table th {
+        background-color: #333333;
+    }
+    .table td {
+        background-color: #222222;
+    }
+    .table tr:hover {
+        background-color: #444444;
+    }
+}
+@media (prefers-color-scheme: light) {
+    .table th {
+        background-color: #f2f2f2;
+    }
+    .table tr:hover {
+        background-color: #f5f5f5;
+    }
+}
 .table {
     width: 100%;
     border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 .table th, .table td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #dddddd;
 }
 .table th {
-    background-color: #f2f2f2;
     font-weight: bold;
 }
-.table tr:hover {
-    background-color: #f5f5f5;
+.table tr {
+    border-bottom: 1px solid #dddddd;
+}
+.table tr:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.table tr:last-of-type {
+    border-bottom: 2px solid #009879;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -85,21 +117,53 @@ if not fines_df.empty:
     # Custom CSS
     st.markdown("""
     <style>
+    @media (prefers-color-scheme: dark) {
+        .table {
+            color: #ffffff;
+        }
+        .table th {
+            background-color: #333333;
+        }
+        .table td {
+            background-color: #222222;
+        }
+        .table tr:hover {
+            background-color: #444444;
+        }
+    }
+    @media (prefers-color-scheme: light) {
+        .table th {
+            background-color: #f2f2f2;
+        }
+        .table tr:hover {
+            background-color: #f5f5f5;
+        }
+    }
     .table {
         width: 100%;
         border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     }
     .table th, .table td {
         padding: 12px 15px;
         text-align: left;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #dddddd;
     }
     .table th {
-        background-color: #f2f2f2;
         font-weight: bold;
     }
-    .table tr:hover {
-        background-color: #f5f5f5;
+    .table tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .table tr:nth-of-type(even) {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .table tr:last-of-type {
+        border-bottom: 2px solid #009879;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -121,25 +185,57 @@ if member_names:
     if not member_fines.empty:
         #st.dataframe(member_fines[["fine", "amount", "date"]], use_container_width=True, hide_index=True)
         st.markdown("""
-            <style>
+        <style>
+        @media (prefers-color-scheme: dark) {
             .table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            .table th, .table td {
-                padding: 12px 15px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
+                color: #ffffff;
             }
             .table th {
+                background-color: #333333;
+            }
+            .table td {
+                background-color: #222222;
+            }
+            .table tr:hover {
+                background-color: #444444;
+            }
+        }
+        @media (prefers-color-scheme: light) {
+            .table th {
                 background-color: #f2f2f2;
-                font-weight: bold;
             }
             .table tr:hover {
                 background-color: #f5f5f5;
             }
-            </style>
-            """, unsafe_allow_html=True)
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dddddd;
+        }
+        .table th {
+            font-weight: bold;
+        }
+        .table tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        .table tr:nth-of-type(even) {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .table tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
         # Convert DataFrame to HTML
         html_table = member_fines[["fine", "amount", "date"]].to_html(classes='table', index=False, escape=False)
