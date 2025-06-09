@@ -49,7 +49,7 @@ st.title("⚽ SKJOLDSVINDERHOLD BØDEKASSE")
 st.subheader("📋 Bødeoversigt")
 st.dataframe(pd.DataFrame(FINE_CATALOG.items(), columns=["Bøde", "Pris"]).sort_values(by="Pris", ascending=False), use_container_width=True, hide_index=True)
 
-st.subheader(f"💰 Bødeliste - {fines_df["amount"].sum()},-")
+st.subheader(f"💰 Bødeliste - {fines_df["amount"].sum()} DKK")
 if not fines_df.empty:
     total_owed = fines_df.groupby("member")["amount"].sum().reset_index()
     total_owed.columns = ["Spiller", "Total"]
