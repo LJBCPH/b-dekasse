@@ -19,7 +19,7 @@ def load_fines():
     try:
         return pd.read_csv("./fines.csv")
     except FileNotFoundError:
-        return pd.DataFrame(columns=["id", "member", "fine", "amount", "date"])
+        return pd.DataFrame(columns=["id", "member", "fine", "amount", "dato"])
 
 def save_members(df):
     df.to_csv("./members.csv", index=False)
@@ -183,7 +183,7 @@ if member_names:
     member_fines = fines_df[fines_df["member"] == selected_member]
 
     if not member_fines.empty:
-        #st.dataframe(member_fines[["fine", "amount", "date"]], use_container_width=True, hide_index=True)
+        #st.dataframe(member_fines[["fine", "amount", "dato"]], use_container_width=True, hide_index=True)
         st.markdown("""
         <style>
         @media (prefers-color-scheme: dark) {
@@ -238,7 +238,7 @@ if member_names:
         """, unsafe_allow_html=True)
 
         # Convert DataFrame to HTML
-        html_table = member_fines[["fine", "amount", "date"]].to_html(classes='table', index=False, escape=False)
+        html_table = member_fines[["fine", "amount", "dato"]].to_html(classes='table', index=False, escape=False)
 
         # Display the HTML table in Streamlit
         st.markdown(html_table, unsafe_allow_html=True)
@@ -281,7 +281,7 @@ if is_admin:
                 "member": member,
                 "fine": fine_type,
                 "amount": FINE_CATALOG[fine_type],
-                "date": datetime.now().strftime("%Y-%m-%d")
+                "dato": datetime.now().strftime("%Y-%m-%d")
             }
             fines_df = pd.concat([fines_df, pd.DataFrame([new_fine])], ignore_index=True)
             save_fines(fines_df)
