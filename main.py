@@ -43,7 +43,7 @@ member_names = members_df["name"].tolist()
 query_params = st.query_params
 is_admin = query_params.get("admin_token", [None]) == ADMIN_TOKEN
 # --- Title ---
-st.title("⚽ SKJOLDSVINDERHOLD BØDEKASSE")
+st.title("⚽ BØDEKASSE ⚽")
 
 # --- Public View ---
 st.subheader("📋 Bødeoversigt")
