@@ -47,14 +47,68 @@ st.title("⚽ SKJOLDSVINDERHOLD BØDEKASSE")
 
 # --- Public View ---
 st.subheader("📋 Bødeoversigt")
-st.dataframe(pd.DataFrame(FINE_CATALOG.items(), columns=["Bøde", "Pris"]).sort_values(by="Pris", ascending=False), use_container_width=True, hide_index=True)
+#st.dataframe(pd.DataFrame(FINE_CATALOG.items(), columns=["Bøde", "Pris"]).sort_values(by="Pris", ascending=False), use_container_width=True, hide_index=True)
+# Custom CSS
+st.markdown("""
+<style>
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table th, .table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+.table tr:hover {
+    background-color: #f5f5f5;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Convert DataFrame to HTML
+html_table = pd.DataFrame(FINE_CATALOG.items(), columns=["Bøde", "Pris"]).sort_values(by="Pris", ascending=False).to_html(classes='table', index=False, escape=False)
+
+# Display the HTML table in Streamlit
+st.markdown(html_table, unsafe_allow_html=True)
 
 st.subheader(f"💰 Bødeliste - {fines_df["amount"].sum()} DKK")
 if not fines_df.empty:
     total_owed = fines_df.groupby("member")["amount"].sum().reset_index()
     total_owed.columns = ["Spiller", "Total"]
     total_owed = total_owed.sort_values(by="Total", ascending=False)
-    st.dataframe(total_owed, use_container_width=True, hide_index=True)
+    #st.dataframe(total_owed, use_container_width=True, hide_index=True)
+    # Custom CSS
+    st.markdown("""
+    <style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table th, .table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    .table tr:hover {
+        background-color: #f5f5f5;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Convert DataFrame to HTML
+    html_table = total_owed.to_html(classes='table', index=False, escape=False)
+
+    # Display the HTML table in Streamlit
+    st.markdown(html_table, unsafe_allow_html=True)
 else:
     st.info("Ingen bøder!")
 
@@ -65,7 +119,33 @@ if member_names:
     member_fines = fines_df[fines_df["member"] == selected_member]
 
     if not member_fines.empty:
-        st.dataframe(member_fines[["fine", "amount", "date"]], use_container_width=True, hide_index=True)
+        #st.dataframe(member_fines[["fine", "amount", "date"]], use_container_width=True, hide_index=True)
+        st.markdown("""
+            <style>
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .table th, .table td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+            .table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+            .table tr:hover {
+                background-color: #f5f5f5;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+
+        # Convert DataFrame to HTML
+        html_table = member_fines[["fine", "amount", "date"]].to_html(classes='table', index=False, escape=False)
+
+        # Display the HTML table in Streamlit
+        st.markdown(html_table, unsafe_allow_html=True)
 
         if is_admin and st.button(f"❌ Clear all fines for {selected_member}"):
             fines_df = fines_df[fines_df["member"] != selected_member]
@@ -129,10 +209,3 @@ if is_admin:
                 members_df = members_df[members_df["name"] != member_to_remove]
                 save_members(members_df)
                 st.success(f"Fjernede: {member_to_remove}")
-
-# --- Admin Access Hint ---
-if not is_admin:
-    st.markdown("---")
-    st.markdown("🔐 Are you an admin? Go to:")
-    admin_link = f"?admin_token={ADMIN_TOKEN}"
-    st.code(admin_link)
