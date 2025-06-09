@@ -73,7 +73,7 @@ if member_names:
             st.success(f"All fines for {selected_member} have been cleared.")
             st.rerun()
     else:
-        st.info("Denne spiller er gældsfri.")
+        st.info(f"{selected_member} er gældsfri.")
 
 # --- MobilePay Links ---
 if not fines_df.empty:
