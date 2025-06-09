@@ -178,7 +178,7 @@ else:
 
 # --- Member History ---
 if member_names:
-    selected_member = st.selectbox("Select a member", member_names)
+    selected_member = st.selectbox("Vælg en spiller og se nuværende bøder", member_names)
 
     member_fines = fines_df[fines_df["member"] == selected_member]
 
